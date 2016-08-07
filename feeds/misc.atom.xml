@@ -26,9 +26,9 @@ gitで投稿できればうれしい．&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="hatena"&gt;
 &lt;h2&gt;Hatenaの良いところ&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;1. hatena star&lt;/strong&gt;
-&lt;strong&gt;2. view数のメール&lt;/strong&gt;
-&lt;strong&gt;3. hatena bookmark&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1. hatena star&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. view数のメール&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3. hatena bookmark&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;投稿のモチベーションが維持できるのでこれは非常によい．&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;4. subscribe&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;最近あんまり見なくなりましたけど，hatenaで他のblogのsubscribeができるのでたのしいです．&lt;/p&gt;
@@ -37,8 +37,8 @@ gitで投稿できればうれしい．&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="blog"&gt;
 &lt;h2&gt;わたしがblogにもとめた要件&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;1. 数式が書きやすい&lt;/strong&gt;
-&lt;strong&gt;2. ipython notebookで投稿できる&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1. 数式が書きやすい&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. ipython notebookで投稿できる&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;machine learningの実験とかipython notebookでしてるので，それでもblogが書けるようにしたいです．
 jupyter nbconvertを使うとreStructuredTextが出力できるので便利です．&lt;/p&gt;
 &lt;div class="math"&gt;
@@ -56,10 +56,10 @@ J(\mathbf{w}) = \sum_{(\mathbf{x}, y)\in D}\left(y-f(\mathbf{x}; \mathbf{w})\rig
 \mathbf{w}^\ast = \underset{\mathbf{w}}{\mathrm{argmin}} J(\mathbf{w})
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;&lt;strong&gt;3. gitで投稿できる&lt;/strong&gt;
-&lt;strong&gt;4. デザインが簡単にcss+htmlでできる&lt;/strong&gt;
-&lt;strong&gt;5. コードが綺麗にhighlightできる&lt;/strong&gt;
-&lt;strong&gt;6. gist, github embedding&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3. gitで投稿できる&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;4. デザインが簡単にcss+htmlでできる&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;5. コードが綺麗にhighlightできる&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;6. gist, github embedding&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;デベロッパーはこういうのが便利に使えないと生きていけないので…&lt;/p&gt;
 &lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;1
 2&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;re&lt;/span&gt;
@@ -70,9 +70,9 @@ J(\mathbf{w}) = \sum_{(\mathbf{x}, y)\in D}\left(y-f(\mathbf{x}; \mathbf{w})\rig
 &lt;h2&gt;pelicanが満たしてない要件&lt;/h2&gt;
 &lt;p&gt;pelicanは先の要件をすべて満たしてますが，次を満たしてないです．
 なので元気がアレばstatic site generatorを作りたい．(まぁ元気があれば…)&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;1. debugがめんどくさい&lt;/strong&gt;
-&lt;strong&gt;2. shareまわり&lt;/strong&gt;
-&lt;strong&gt;3. サムネイル生成&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1. debugがめんどくさい&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. shareまわり&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3. サムネイル生成&lt;/strong&gt;&lt;/p&gt;
 &lt;!-- .. math::
     x^2 --&gt;
 &lt;!-- inline :math:`x^2` --&gt;
