@@ -9,22 +9,16 @@ hatena blogには，これまでありがとうございましたという気持
 &lt;div class="section" id="hatena-blog"&gt;
 &lt;h2&gt;なんでHatena blogが不満だったか&lt;/h2&gt;
 &lt;p&gt;hatenaの人が見てくれることもすこし期待して．&lt;/p&gt;
-&lt;ol class="arabic simple"&gt;
-&lt;li&gt;自動リンク&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;1. 自動リンク&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;hatena blogには自動リンク機能があります．
 関連ワードにリンクはる機能ですけど，余計なところにlinkを貼ったりして厄介です．
 proだとこの機能を切れるらしいですが，proにするほど使わないし．月額500円はちょっとたかい．&lt;/p&gt;
-&lt;ol class="arabic simple" start="2"&gt;
-&lt;li&gt;数式&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;2. 数式&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;hatena記法には数式書ける方法がありますが，markdownでは使えないので，mathjaxを使っています．
 mathjaxだと1行に複数書くとうまく動かなったり，mathjaxの中で自動リンクが働くとmathjaxが適用されなくなったります．
 なので，自動リンクされない単語で1行に複数書かないように工夫する必要があってめんどくさいです．
 machine learningとかやっていると数式だらけになるのでストレスなく数式が書けないとつらいです．&lt;/p&gt;
-&lt;ol class="arabic simple" start="3"&gt;
-&lt;li&gt;投稿インターフェース&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;3. 投稿インターフェース&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;投稿はwebで投稿できますが，git pushでぽいぽい投げたいという気持ちがあります．
 手軽さ的には，webで書くよりいつも使っているエディターで書きたいです．&lt;/p&gt;
 &lt;p&gt;hatenaにもatompubのAPIがありますが，2016年になってatompubを使いたいという気力はないです．
@@ -32,27 +26,19 @@ gitで投稿できればうれしい．&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="hatena"&gt;
 &lt;h2&gt;Hatenaの良いところ&lt;/h2&gt;
-&lt;ol class="arabic simple"&gt;
-&lt;li&gt;hatena star&lt;/li&gt;
-&lt;li&gt;view数のメール&lt;/li&gt;
-&lt;li&gt;hatena bookmark&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;1. hatena star&lt;/strong&gt;
+&lt;strong&gt;2. view数のメール&lt;/strong&gt;
+&lt;strong&gt;3. hatena bookmark&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;投稿のモチベーションが維持できるのでこれは非常によい．&lt;/p&gt;
-&lt;ol class="arabic simple" start="4"&gt;
-&lt;li&gt;subscribe&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;4. subscribe&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;最近あんまり見なくなりましたけど，hatenaで他のblogのsubscribeができるのでたのしいです．&lt;/p&gt;
-&lt;ol class="arabic simple" start="5"&gt;
-&lt;li&gt;各種サイトの埋め込み&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;5. 各種サイトの埋め込み&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;非常に便利&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="blog"&gt;
 &lt;h2&gt;わたしがblogにもとめた要件&lt;/h2&gt;
-&lt;ol class="arabic simple"&gt;
-&lt;li&gt;数式が書きやすい&lt;/li&gt;
-&lt;li&gt;ipython notebookで投稿できる&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;1. 数式が書きやすい&lt;/strong&gt;
+&lt;strong&gt;2. ipython notebookで投稿できる&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;machine learningの実験とかipython notebookでしてるので，それでもblogが書けるようにしたいです．
 jupyter nbconvertを使うとreStructuredTextが出力できるので便利です．&lt;/p&gt;
 &lt;div class="math"&gt;
@@ -70,12 +56,10 @@ J(\mathbf{w}) = \sum_{(\mathbf{x}, y)\in D}\left(y-f(\mathbf{x}; \mathbf{w})\rig
 \mathbf{w}^\ast = \underset{\mathbf{w}}{\mathrm{argmin}} J(\mathbf{w})
 \end{equation*}
 &lt;/div&gt;
-&lt;ol class="arabic simple" start="3"&gt;
-&lt;li&gt;gitで投稿できる&lt;/li&gt;
-&lt;li&gt;デザインが簡単にcss+htmlでできる&lt;/li&gt;
-&lt;li&gt;コードが綺麗にhighlightできる&lt;/li&gt;
-&lt;li&gt;gist, github embedding&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;3. gitで投稿できる&lt;/strong&gt;
+&lt;strong&gt;4. デザインが簡単にcss+htmlでできる&lt;/strong&gt;
+&lt;strong&gt;5. コードが綺麗にhighlightできる&lt;/strong&gt;
+&lt;strong&gt;6. gist, github embedding&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;デベロッパーはこういうのが便利に使えないと生きていけないので…&lt;/p&gt;
 &lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;1
 2&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;re&lt;/span&gt;
@@ -86,11 +70,9 @@ J(\mathbf{w}) = \sum_{(\mathbf{x}, y)\in D}\left(y-f(\mathbf{x}; \mathbf{w})\rig
 &lt;h2&gt;pelicanが満たしてない要件&lt;/h2&gt;
 &lt;p&gt;pelicanは先の要件をすべて満たしてますが，次を満たしてないです．
 なので元気がアレばstatic site generatorを作りたい．(まぁ元気があれば…)&lt;/p&gt;
-&lt;ol class="arabic simple"&gt;
-&lt;li&gt;tag一覧&lt;/li&gt;
-&lt;li&gt;category一覧&lt;/li&gt;
-&lt;li&gt;サムネイル生成&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;1. debugがめんどくさい&lt;/strong&gt;
+&lt;strong&gt;2. shareまわり&lt;/strong&gt;
+&lt;strong&gt;3. サムネイル生成&lt;/strong&gt;&lt;/p&gt;
 &lt;!-- .. math::
     x^2 --&gt;
 &lt;!-- inline :math:`x^2` --&gt;

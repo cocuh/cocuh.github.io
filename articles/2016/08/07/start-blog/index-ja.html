@@ -78,22 +78,16 @@ hatena blogには，これまでありがとうございましたという気持
 <div class="section" id="hatena-blog">
 <h2>なんでHatena blogが不満だったか</h2>
 <p>hatenaの人が見てくれることもすこし期待して．</p>
-<ol class="arabic simple">
-<li>自動リンク</li>
-</ol>
+<p><strong>1. 自動リンク</strong></p>
 <p>hatena blogには自動リンク機能があります．
 関連ワードにリンクはる機能ですけど，余計なところにlinkを貼ったりして厄介です．
 proだとこの機能を切れるらしいですが，proにするほど使わないし．月額500円はちょっとたかい．</p>
-<ol class="arabic simple" start="2">
-<li>数式</li>
-</ol>
+<p><strong>2. 数式</strong></p>
 <p>hatena記法には数式書ける方法がありますが，markdownでは使えないので，mathjaxを使っています．
 mathjaxだと1行に複数書くとうまく動かなったり，mathjaxの中で自動リンクが働くとmathjaxが適用されなくなったります．
 なので，自動リンクされない単語で1行に複数書かないように工夫する必要があってめんどくさいです．
 machine learningとかやっていると数式だらけになるのでストレスなく数式が書けないとつらいです．</p>
-<ol class="arabic simple" start="3">
-<li>投稿インターフェース</li>
-</ol>
+<p><strong>3. 投稿インターフェース</strong></p>
 <p>投稿はwebで投稿できますが，git pushでぽいぽい投げたいという気持ちがあります．
 手軽さ的には，webで書くよりいつも使っているエディターで書きたいです．</p>
 <p>hatenaにもatompubのAPIがありますが，2016年になってatompubを使いたいという気力はないです．
@@ -101,27 +95,19 @@ gitで投稿できればうれしい．</p>
 </div>
 <div class="section" id="hatena">
 <h2>Hatenaの良いところ</h2>
-<ol class="arabic simple">
-<li>hatena star</li>
-<li>view数のメール</li>
-<li>hatena bookmark</li>
-</ol>
+<p><strong>1. hatena star</strong>
+<strong>2. view数のメール</strong>
+<strong>3. hatena bookmark</strong></p>
 <p>投稿のモチベーションが維持できるのでこれは非常によい．</p>
-<ol class="arabic simple" start="4">
-<li>subscribe</li>
-</ol>
+<p><strong>4. subscribe</strong></p>
 <p>最近あんまり見なくなりましたけど，hatenaで他のblogのsubscribeができるのでたのしいです．</p>
-<ol class="arabic simple" start="5">
-<li>各種サイトの埋め込み</li>
-</ol>
+<p><strong>5. 各種サイトの埋め込み</strong></p>
 <p>非常に便利</p>
 </div>
 <div class="section" id="blog">
 <h2>わたしがblogにもとめた要件</h2>
-<ol class="arabic simple">
-<li>数式が書きやすい</li>
-<li>ipython notebookで投稿できる</li>
-</ol>
+<p><strong>1. 数式が書きやすい</strong>
+<strong>2. ipython notebookで投稿できる</strong></p>
 <p>machine learningの実験とかipython notebookでしてるので，それでもblogが書けるようにしたいです．
 jupyter nbconvertを使うとreStructuredTextが出力できるので便利です．</p>
 <div class="math">
@@ -139,12 +125,10 @@ J(\mathbf{w}) = \sum_{(\mathbf{x}, y)\in D}\left(y-f(\mathbf{x}; \mathbf{w})\rig
 \mathbf{w}^\ast = \underset{\mathbf{w}}{\mathrm{argmin}} J(\mathbf{w})
 \end{equation*}
 </div>
-<ol class="arabic simple" start="3">
-<li>gitで投稿できる</li>
-<li>デザインが簡単にcss+htmlでできる</li>
-<li>コードが綺麗にhighlightできる</li>
-<li>gist, github embedding</li>
-</ol>
+<p><strong>3. gitで投稿できる</strong>
+<strong>4. デザインが簡単にcss+htmlでできる</strong>
+<strong>5. コードが綺麗にhighlightできる</strong>
+<strong>6. gist, github embedding</strong></p>
 <p>デベロッパーはこういうのが便利に使えないと生きていけないので…</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
@@ -155,11 +139,9 @@ J(\mathbf{w}) = \sum_{(\mathbf{x}, y)\in D}\left(y-f(\mathbf{x}; \mathbf{w})\rig
 <h2>pelicanが満たしてない要件</h2>
 <p>pelicanは先の要件をすべて満たしてますが，次を満たしてないです．
 なので元気がアレばstatic site generatorを作りたい．(まぁ元気があれば…)</p>
-<ol class="arabic simple">
-<li>tag一覧</li>
-<li>category一覧</li>
-<li>サムネイル生成</li>
-</ol>
+<p><strong>1. debugがめんどくさい</strong>
+<strong>2. shareまわり</strong>
+<strong>3. サムネイル生成</strong></p>
 <!-- .. math::
     x^2 -->
 <!-- inline :math:`x^2` -->
