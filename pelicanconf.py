@@ -6,7 +6,7 @@ AUTHOR = 'cocuh'
 SITENAME = "cocuh's blog"
 SITETITLE = "cocuh"
 SITESUBTITLE = "Kosuke Kusano"
-SITEURL = 'https://cocuh.github.io'
+SITEURL = ''
 
 ARTICLE_URL = 'articles/{date:%Y}/{date:%m}/{date:%d}/{slug}/'
 ARTICLE_SAVE_AS = 'articles/{date:%Y}/{date:%m}/{date:%d}/{slug}/index.html'
