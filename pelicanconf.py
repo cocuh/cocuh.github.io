@@ -49,6 +49,8 @@ AUTHOR_FEED_RSS = None
 # Blogroll
 LINKS = (
         ('home', 'http://typowriter.org'),
+        ('category', '/categories.html'),
+        ('tag', '/tags.html'),
 )
 
 # Social widget
