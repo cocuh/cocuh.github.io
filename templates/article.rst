@@ -5,6 +5,8 @@
 :tags: 
 :category: 
 :authors: cocuh
+:slug: {{ title }}
+:lang: en
 
 ..
     :summary: Short version for index and feeds
