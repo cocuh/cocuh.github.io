@@ -78,6 +78,18 @@ Hatenaの良いところ
 machine learningの実験とかipython notebookでしてるので，それでもblogが書けるようにしたいです．
 jupyter nbconvertを使うとreStructuredTextが出力できるので便利です．
 
+.. math::
+
+    f(\mathbf{x};\mathbf{w}) = \mathbf{w}^T\mathbf{x}
+
+.. math::
+
+    J(\mathbf{w}) = \sum_{(\mathbf{x}, y)\in D}\left(y-f(\mathbf{x}; \mathbf{w})\right)^2+ c\|\mathbf{w}\|_1
+
+.. math::
+    \mathbf{w}^\ast = \underset{\mathbf{w}}{\mathrm{argmin}} J(\mathbf{w})
+
+
 3. gitで投稿できる
 4. デザインが簡単にcss+htmlでできる
 5. コードが綺麗にhighlightできる
