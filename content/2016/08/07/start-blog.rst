@@ -6,6 +6,7 @@ Hatena blogからpelicanに移行した
 :category: misc
 :authors: cocuh
 :lang: ja
+:slug: start-blog
 
 ..
     :summary: Short version for index and feeds
