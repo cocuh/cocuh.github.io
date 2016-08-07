@@ -6,7 +6,7 @@ AUTHOR = 'cocuh'
 SITENAME = "cocuh's blog"
 SITETITLE = "cocuh"
 SITESUBTITLE = "Kosuke Kusano"
-SITEURL = ''
+SITEURL = 'https://cocuh.github.io'
 
 
 PATH = 'content'
@@ -40,7 +40,7 @@ DEFAULT_LANG = 'en'
 ROBOTS = 'index, follow'
 
 # Feed generation is usually not desired when developing
-FEED_ALL_ATOM = None
+#FEED_ALL_ATOM = 'feeds/all.atom.xml'
 CATEGORY_FEED_ATOM = None
 TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
@@ -57,6 +57,7 @@ SOCIAL = (
         ('github', 'https://github.com/cocuh'),
         ('google', 'https://plus.google.com/118080418876092260093'),
         ('twitter', 'https://twitter.com/cocuh_'),
+        ('rss', '/feeds/all.atom.xml'),
 )
 
 
@@ -67,4 +68,5 @@ DEFAULT_PAGINATION = 10
 
 THEME = 'theme/Flex'
 SITELOGO = '/static/sitelogo.png'
-PYGMENTS_STYLE = 'molokai'
+PYGMENTS_STYLE = 'monokai'
+PYGMENTS_RST_OPTIONS = {'linenos': 'table'}
