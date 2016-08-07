@@ -53,7 +53,9 @@ Hatenaの良いところ
 -------------------
 
 **1. hatena star**
+
 **2. view数のメール**
+
 **3. hatena bookmark**
 
 投稿のモチベーションが維持できるのでこれは非常によい．
@@ -73,6 +75,7 @@ Hatenaの良いところ
 --------------------------
 
 **1. 数式が書きやすい**
+
 **2. ipython notebookで投稿できる**
 
 machine learningの実験とかipython notebookでしてるので，それでもblogが書けるようにしたいです．
@@ -91,8 +94,11 @@ jupyter nbconvertを使うとreStructuredTextが出力できるので便利で�
 
 
 **3. gitで投稿できる**
+
 **4. デザインが簡単にcss+htmlでできる**
+
 **5. コードが綺麗にhighlightできる**
+
 **6. gist, github embedding**
 
 デベロッパーはこういうのが便利に使えないと生きていけないので…
@@ -109,7 +115,9 @@ pelicanは先の要件をすべて満たしてますが，次を満たしてな�
 なので元気がアレばstatic site generatorを作りたい．(まぁ元気があれば…)
 
 **1. debugがめんどくさい**
+
 **2. shareまわり**
+
 **3. サムネイル生成**
 
 
