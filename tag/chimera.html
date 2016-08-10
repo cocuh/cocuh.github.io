@@ -31,7 +31,7 @@
 <meta property="og:url" content="https://cocuh.github.io"/>
 <meta property="og:image" content="/static/sitelogo.png">
 
-  <title>cocuh's blog &ndash; Authors</title>
+  <title>cocuh's blog &ndash; Tag: chimera</title>
 </head>
 <body>
   <aside>
@@ -58,16 +58,30 @@
   </aside>
   <main>
 
-<article>
+<article class="articles">
   <header>
-    <h1>Authors</h1>
+    <h2><a href="https://cocuh.github.io/articles/2016/08/10/chimera/index-ja.html#chimera">複数の言語で一つのプログラムを書くということ(WIP)</a></h2>
+    <p>
+      Posted on Wed 10 August 2016 in <a href="https://cocuh.github.io/category/software.html">software</a>
+      &#8226; Tagged with
+      <a href="https://cocuh.github.io/tag/chimera.html">chimera</a>,      <a href="https://cocuh.github.io/tag/software-design.html">software design</a>,      <a href="https://cocuh.github.io/tag/python.html">python</a>      &#8226; <a href="https://cocuh.github.io/articles/2016/08/10/chimera/index-ja.html#disqus_thread">Leave a comment</a>
+    </p>
   </header>
   <div>
-    <ul class="list">
-      <li><a href="https://cocuh.github.io/author/cocuh.html">cocuh</a> (2)</li>
-    </ul>
+      <p>1つのプロジェクトが1つの言語で完結することが少なくなっています．
+webアプリケーションで例えれば，backendはPythonで書き，frontendはJavaScriptを使っているなどです．
+このような1つのプロジェクトに複数の言語が混在させるソフトウェア設計論について，あまり多く議論されてきませんでした．</p>
+<p>本記事では，「1つのプロジェクトに複数の言語が混在する」状態をキメラ(chimera)と命名し，キメラなプロジェクトを設計する上で必要なことを実例を交えつつ紹介します．
+その上で，キメラを実現する上で求められるであろう技術について触れます．
+最後に，プログラミング言語の今後についての私見も述べようと思います．</p>
+<p>この記事の内容は <a class="reference external" href="https://pycon.jp/2016/ja/schedule/presentation/33/">PyConJp 2016</a> にて発表予定です．</p>
+
+      <a class="btn" href="https://cocuh.github.io/articles/2016/08/10/chimera/index-ja.html#chimera">Continue reading</a>
   </div>
 </article>
+
+  <div class="pagination">
+  </div>
 
     <footer>
         <p>&copy; cocuh </p>
@@ -87,6 +101,15 @@
   "image": "/static/sitelogo.png",
   "description": ""
 }
+</script>
+<script type="text/javascript">
+    var disqus_shortname = 'cocuh-github-io';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
 </script>
 </body>
 </html>

@@ -5,7 +5,7 @@
 @light-grey:  #eeeeee;
 @med-grey:  #999999;
 @dark-grey: #242121;
-
+@jp-sans-serif: "Helvetica Neue", Helvetica, "Hiragino Kaku Gothic ProN", Meiryo, 'Noto Sans JP',  sans-serif;
 @sans: 'Noto Sans JP', 'Source Sans Pro', 'Verdana', sans-serif;
 @mono: 'Source Code Pro', 'Consolas', monospace;
 
@@ -21,8 +21,9 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.1;
+  font-family: @sans;
 }
 
 h1{
@@ -54,9 +55,9 @@ body {
   padding: 0;
   background-color: @white;
   color: @dark-grey;
-  font-family: @sans;
+  font-family: @jp-sans-serif;
   font-size: 1.02em;
-  line-height: 1.2em;
+  line-height: 1.7em;
   word-break: break-all;
 }
 
@@ -85,6 +86,7 @@ img {
 aside {
   background-color: @grey;
   color: @white;
+  font-family: @sans;
   text-align: center;
   font-weight: 200;
 
@@ -107,6 +109,7 @@ aside {
 
     h1 {
       margin: 15px 0 5px 0;
+      font-weight: 200;
     }
 
     p {

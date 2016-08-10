@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>cocuh's blog</title><link href="https://cocuh.github.io/" rel="alternate"></link><link href="https://cocuh.github.io/feeds/software.atom.xml" rel="self"></link><id>https://cocuh.github.io/</id><updated>2016-08-10T21:55:00+09:00</updated><entry><title>複数の言語で一つのプログラムを書くということ(WIP)</title><link href="https://cocuh.github.io/articles/2016/08/10/chimera/index-ja.html" rel="alternate"></link><published>2016-08-10T21:55:00+09:00</published><author><name>cocuh</name></author><id>tag:cocuh.github.io,2016-08-10:articles/2016/08/10/chimera/index-ja.html</id><summary type="html">&lt;p&gt;1つのプロジェクトが1つの言語で完結することが少なくなっています．
+webアプリケーションで例えれば，backendはPythonで書き，frontendはJavaScriptを使っているなどです．
+このような1つのプロジェクトに複数の言語が混在させるソフトウェア設計論について，あまり多く議論されてきませんでした．&lt;/p&gt;
+&lt;p&gt;本記事では，「1つのプロジェクトに複数の言語が混在する」状態をキメラ(chimera)と命名し，キメラなプロジェクトを設計する上で必要なことを実例を交えつつ紹介します．
+その上で，キメラを実現する上で求められるであろう技術について触れます．
+最後に，プログラミング言語の今後についての私見も述べようと思います．&lt;/p&gt;
+&lt;p&gt;この記事の内容は &lt;a class="reference external" href="https://pycon.jp/2016/ja/schedule/presentation/33/"&gt;PyConJp 2016&lt;/a&gt; にて発表予定です．&lt;/p&gt;
+
+&lt;div class="section" id="motivation"&gt;
+&lt;h2&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;私は機械学習の研究をしており，Pythonを使用しています．
+この研究のなかで，NP困難な問題を解く必要があり，並列処理をする必要が出てきました．&lt;/p&gt;
+&lt;!-- .. math::
+    x^2 --&gt;
+&lt;!-- inline :math:`x^2` --&gt;
+&lt;/div&gt;
+</summary><category term="chimera"></category><category term="software design"></category><category term="python"></category></entry></feed>
