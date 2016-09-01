@@ -3,7 +3,7 @@
 
 
 :tags: chimera, software design, python
-:category: software 
+:category: software
 :authors: cocuh
 :slug: chimera
 :lang: ja
@@ -43,43 +43,34 @@ Why I focus it.
 同様に，actor modelのような並行処理を行うプログラムを書く場合，Pythonよりerlangを用いて記述したくなりますが，実際の処理の部分はライブラリの豊富なPythonで実装したいです．
 このように，あるコンポーネントはある言語で書きたいが，ほかのコンポーネントは別の言語で書きたいという欲求がでてきます．
 
-本記事ではこのような，別々の言語で実装されたモジュールを組合せ，一つのプロジェクトを実現するプログラミング技法を議論します．
-
+本記事ではこのような，別々の言語で実装されたコンポーネントを組合せ，一つのプロジェクトを実現するプログラミング技法を議論します．
 
 Chimera
 -------
 
-本記事では， `複数の言語が組み合わさった状態` を `キメラ` と呼ぶこととします．
+本記事では， **複数の言語が組み合わさった状態** を **キメラ** と呼ぶこととします．
 厳密風な定義もいくつか考えましたが，しっくりこなかったのでゆるい定義となってます．
 
-キメラの例をコードを用いて示します．
+キメラなプロジェクトの例としてnumpyが挙げられます．
 
-.. code::Python
-  import numpy as np
-  
-  x = np.arange(5)    # x=[0, 1, 2, 3, 4]
-  mean = x.mean()     # mean = 2
+https://github.com/numpy/numpy
 
-たとえば，numpyの :code:`numpy.arange` は実はCで実装されています． `source<https://github.com/numpy/numpy/blob/3e396148edfe91214c7baa03492f523ca53680e8/numpy/core/src/multiarray/ctors.c#L2939>`__
-:code:`numpy.ndarray` もCのオブジェクトです． `doc<http://docs.scipy.org/doc/numpy/reference/c-api.types-and-structures.html>`__
+.. image:: {attach}numpy.png
 
-なので，このコードはPythonとCが組み合わさった状態であるのでキメラです．
+たとえばこんな感じに，CとPythonで書かれているのがわかります．
+これは速度と計算資源の有効活用のためで，コアな部分はCで書き，そのまわりは人間が書きやすいPythonで書くようにしています．
 
+もう一つ別の例では，webアプリケーションが挙げられます．
+serverサイドがRailsであってもclientサイドはJavaScriptのようにです．
+これは，serverサイドはHTTPが喋れれば何でもいいですが，clientサイドはブラウザが(基本的に)JavaScriptのみしか動かないためです．
+
+このように，多くのアプリケーションは複数の言語でかかれています．
+これは，言語ごとに特徴が異なるため使い分けが為されているためです．
 
 
 
 Chimeraの種類
 ----------------
-
-モジュール間の関係には4種類あると私は思います．
-
-1. 対等
-  1. P2P
-2. 従属
-  1. 異なるホスト上のプロセスに呼び出し(Remote Procedure Call)
-  2. 同一のホスト上に異なるプロセスが存在(Local Procedure Call)
-  3. 同一のホスト上の同一のプロセス上にモジュールが(Procedure Call)
-
 
 
 ..
