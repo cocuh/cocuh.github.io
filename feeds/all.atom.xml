@@ -1,19 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>cocuh's blog</title><link href="https://cocuh.github.io/" rel="alternate"></link><link href="https://cocuh.github.io/feeds/all.atom.xml" rel="self"></link><id>https://cocuh.github.io/</id><updated>2016-08-10T21:55:00+09:00</updated><entry><title>複数の言語で一つのプログラムを書くということ(WIP)</title><link href="https://cocuh.github.io/articles/2016/08/10/chimera/index-ja.html" rel="alternate"></link><published>2016-08-10T21:55:00+09:00</published><author><name>cocuh</name></author><id>tag:cocuh.github.io,2016-08-10:articles/2016/08/10/chimera/index-ja.html</id><summary type="html">&lt;p&gt;1つのプロジェクトが1つの言語で完結することが少なくなっています．
-webアプリケーションで例えれば，backendはPythonで書き，frontendはJavaScriptを使っているなどです．
-このような1つのプロジェクトに複数の言語が混在させるソフトウェア設計論について，あまり多く議論されてきませんでした．&lt;/p&gt;
-&lt;p&gt;本記事では，「1つのプロジェクトに複数の言語が混在する」状態をキメラ(chimera)と命名し，キメラなプロジェクトを設計する上で必要なことを実例を交えつつ紹介します．
-その上で，キメラを実現する上で求められるであろう技術について触れます．
-最後に，プログラミング言語の今後についての私見も述べようと思います．&lt;/p&gt;
-&lt;p&gt;この記事の内容は &lt;a class="reference external" href="https://pycon.jp/2016/ja/schedule/presentation/33/"&gt;PyConJp 2016&lt;/a&gt; にて発表予定です．&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>cocuh's blog</title><link href="https://cocuh.github.io/" rel="alternate"></link><link href="https://cocuh.github.io/feeds/all.atom.xml" rel="self"></link><id>https://cocuh.github.io/</id><updated>2016-09-08T19:21:00+09:00</updated><entry><title>Python+Rustでマルチスレッドな並列プログラミング</title><link href="https://cocuh.github.io/articles/2016/09/08/python_rust_parallel/index-ja.html" rel="alternate"></link><published>2016-09-08T19:21:00+09:00</published><author><name>cocuh</name></author><id>tag:cocuh.github.io,2016-09-08:articles/2016/09/08/python_rust_parallel/index-ja.html</id><summary type="html">&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;アルゴリズムを見て &lt;strong&gt;「むむっ…マルチスレッドで共有メモリごりごりしたい」&lt;/strong&gt; と思うことが皆様あると思います．&lt;/div&gt;
+&lt;div class="line"&gt;しかしながらPythonにはGILがあるため，マルチスレッドをしても並列に処理されません．&lt;/div&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;div class="line"&gt;C++やRustで書いてもいいですが，データ処理をする人間からすると，C++/Rustは常用したくないです．&lt;/div&gt;
+&lt;div class="line"&gt;Rustで処理したものをディスクに保存して，Pythonから読み出すという手もありますが，管理が煩雑でミスをはらみやすいです．&lt;/div&gt;
+&lt;div class="line"&gt;そのため， &lt;strong&gt;アルゴリズムのcoreの部分をRustで書き，Python bindingを作る&lt;/strong&gt; ことを考えます．&lt;/div&gt;
+&lt;/div&gt;
 
-&lt;div class="section" id="motivation"&gt;
-&lt;h2&gt;Motivation&lt;/h2&gt;
-&lt;p&gt;私は機械学習の研究をしており，Pythonを使用しています．
-この研究のなかで，NP困難な問題を解く必要があり，並列処理をする必要が出てきました．&lt;/p&gt;
+&lt;p&gt;Rust &amp;lt;-&amp;gt; Pythonのbindingとして， &lt;a class="reference external" href="https://github.com/dgrunwald/rust-cpython"&gt;rust-cpython&lt;/a&gt; があります．&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://github.com/dgrunwald/rust-cpython"&gt;https://github.com/dgrunwald/rust-cpython&lt;/a&gt;&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;このライブラリは，Rustのコンパイル時にPythonからimport可能なshared objectにできます．&lt;/div&gt;
+&lt;div class="line"&gt;(余談ですがRustからPython interpreterを呼び出すこともできます)&lt;/div&gt;
+&lt;div class="line"&gt;記法はこんな感じ&lt;/div&gt;
+&lt;div class="line"&gt;Rustなので，並行処理が便利にできます・ω・&lt;/div&gt;
+&lt;/div&gt;
+&lt;pre class="code Rust literal-block"&gt;
+&lt;span class="cp"&gt;#![crate_type = &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;dylib&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;span class="cp"&gt;#[macro_use]&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;span class="k"&gt;extern&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;crate&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;cpython&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;
+
+&lt;/span&gt;&lt;span class="kn"&gt;use&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;thread&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;span class="kn"&gt;use&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;sync&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;Arc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Mutex&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;span class="kn"&gt;use&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;cpython&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;PyResult&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Python&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;PyList&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;ToPyObject&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;&lt;span class="w"&gt;
+
+&lt;/span&gt;&lt;span class="n"&gt;py_module_initializer&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sort&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;initsort&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;PyInit_sort&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="n"&gt;try&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;__doc__&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;sleep sort&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="n"&gt;try&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;sleep_sort&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;py_fn&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;sleep_sort&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;py_args&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;PyList&lt;/span&gt;&lt;span class="p"&gt;))));&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="nb"&gt;Ok&lt;/span&gt;&lt;span class="p"&gt;(())&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;span class="p"&gt;});&lt;/span&gt;&lt;span class="w"&gt;
+
+
+&lt;/span&gt;&lt;span class="k"&gt;fn&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;sleep_sort&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Python&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;py_args&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;PyList&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;PyResult&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;PyList&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;
+
+    &lt;/span&gt;&lt;span class="c1"&gt;// convert Python object to Rust object
+&lt;/span&gt;&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="kd"&gt;let&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;Vec&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;u32&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;py_args&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;iter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extract&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;filter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;is_ok&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ok&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;unwrap&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;collect&lt;/span&gt;&lt;span class="o"&gt;::&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;Vec&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;&lt;span class="w"&gt;
+
+    &lt;/span&gt;&lt;span class="c1"&gt;// generate workers
+&lt;/span&gt;&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="kd"&gt;let&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Arc&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Mutex&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;Vec&lt;/span&gt;&lt;span class="o"&gt;::&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;u32&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt;&lt;span class="p"&gt;()));&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="kd"&gt;let&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;workers&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;into_iter&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;
+            &lt;/span&gt;&lt;span class="kd"&gt;let&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;clone&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;&lt;span class="w"&gt;
+            &lt;/span&gt;&lt;span class="n"&gt;thread&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;spawn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;move&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="n"&gt;thread&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;sleep_ms&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="kd"&gt;let&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;mut&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;unwrap&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;// Rust's COOL mutex!!
+&lt;/span&gt;&lt;span class="w"&gt;                &lt;/span&gt;&lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;push&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;
+            &lt;/span&gt;&lt;span class="p"&gt;})&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="p"&gt;})&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;collect&lt;/span&gt;&lt;span class="o"&gt;::&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;Vec&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;&lt;span class="w"&gt;
+
+    &lt;/span&gt;&lt;span class="c1"&gt;// join worker threads
+&lt;/span&gt;&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;workers&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;into_iter&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;
+            &lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="p"&gt;})&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;collect&lt;/span&gt;&lt;span class="o"&gt;::&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;Vec&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;&lt;span class="w"&gt;
+
+    &lt;/span&gt;&lt;span class="c1"&gt;// convert Rust object to Python object
+&lt;/span&gt;&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="kd"&gt;let&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;res&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;unwrap&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;to_py_object&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="nb"&gt;Ok&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;res&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;Cargo.toml&lt;/code&gt; はこんな感じ&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;
+[package]
+name = &amp;quot;sort&amp;quot;
+version = &amp;quot;0.1.0&amp;quot;
+authors = [&amp;quot;cocuh&amp;quot;]
+
+[dependencies.cpython]
+git = &amp;quot;https://github.com/dgrunwald/rust-cpython.git&amp;quot;
+default-features = false
+features = [&amp;quot;python3-sys&amp;quot;]
+
+[lib]
+name=&amp;quot;sort&amp;quot;
+crate-type=[&amp;quot;dylib&amp;quot;]
+&lt;/pre&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;これをcargoでbuildすると:code:&lt;cite&gt;.so&lt;/cite&gt; が:code:&lt;cite&gt;./target/debug/hoge.so&lt;/cite&gt; にできます．&lt;/div&gt;
+&lt;div class="line"&gt;この &lt;code&gt;.so&lt;/code&gt; を &lt;code&gt;sort.cpython-35m-x86_64-linux-gnu.so&lt;/code&gt; にrenameして同じディレクトリでpythonを開くと読み込めます&lt;/div&gt;
+&lt;/div&gt;
+&lt;pre class="code pycon literal-block"&gt;
+&lt;span class="go"&gt;Python 3.5.2 (default, Jun 28 2016, 08:46:01)
+[GCC 6.1.1 20160602] on linux
+Type &amp;quot;help&amp;quot;, &amp;quot;copyright&amp;quot;, &amp;quot;credits&amp;quot; or &amp;quot;license&amp;quot; for more information.
+&lt;/span&gt;&lt;span class="kn"&gt;&lt;/span&gt;&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sort&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="n"&gt;sort&lt;/span&gt;
+&lt;span class="go"&gt;&amp;lt;module 'sort' from '/tmp/rust-sort/target/debug/sort.cpython-35m-x86_64-linux-gnu.so'&amp;gt;
+&lt;/span&gt;&lt;span class="n"&gt;&lt;/span&gt;&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="n"&gt;sort&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sleep_sort&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;span class="go"&gt;[0, 1, 2, 2, 2, 2, 3, 4, 5, 6, 8, 8]
+&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;このままだとめんどくさいので&lt;/div&gt;
+&lt;div class="line"&gt;pipで便利に入れられるようなツールを作ったのでどうぞおつかいください&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://github.com/cocuh/python-rust-ext"&gt;https://github.com/cocuh/python-rust-ext&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;setup.py&lt;/code&gt; をこんな感じに書けば &lt;code&gt;python setup.py install&lt;/code&gt; で勝手にビルドして入れてくれます．べんり！&lt;/p&gt;
+&lt;pre class="code python literal-block"&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;setuptools&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;rust_ext&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;build_rust&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;install_with_rust&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;RustModule&lt;/span&gt;
+
+&lt;span class="n"&gt;rust_modules&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+    &lt;span class="n"&gt;RustModule&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+            &lt;span class="s1"&gt;'sort'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="s1"&gt;'src/Cargo.toml'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="p"&gt;),&lt;/span&gt;
+&lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;'sort'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;version&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;'0.0.1'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;cmdclass&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="s1"&gt;'build_rust'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;build_rust&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="s1"&gt;'install_lib'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;install_with_rust&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="p"&gt;},&lt;/span&gt;
+        &lt;span class="n"&gt;options&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="s1"&gt;'build_rust'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+                &lt;span class="s1"&gt;'modules'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;rust_modules&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="p"&gt;}&lt;/span&gt;
+        &lt;span class="p"&gt;},&lt;/span&gt;
+        &lt;span class="n"&gt;zip_safe&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;こんな感じで意外と便利にpython extensionをRustで書けるので，やってみてはいかがでしょうか．&lt;/div&gt;
+&lt;div class="line"&gt;いま，分枝限定法をPythonで便利に使えるRustを書いてたりしますが，其の話はまた今度できれば．&lt;/div&gt;
+&lt;/div&gt;
 &lt;!-- .. math::
     x^2 --&gt;
 &lt;!-- inline :math:`x^2` --&gt;
+</summary><category term="Rust"></category><category term="Python"></category><category term="programming"></category></entry><entry><title>複数の言語で一つのプログラムを書くということ(WIP)</title><link href="https://cocuh.github.io/articles/2016/08/10/chimera/index-ja.html" rel="alternate"></link><published>2016-08-10T21:55:00+09:00</published><author><name>cocuh</name></author><id>tag:cocuh.github.io,2016-08-10:articles/2016/08/10/chimera/index-ja.html</id><summary type="html">&lt;p&gt;1つのプロジェクトが1つの言語で完結することが少なくなっています．
+webアプリケーションで例えれば，backendはPythonで書き，frontendはJavaScriptを使っているなどです．
+このような1つのプロジェクトに複数の言語が混在させるソフトウェア設計論について，あまり多く議論されてきませんでした．&lt;/p&gt;
+&lt;p&gt;本記事の内容は以下のようになっています．
+..&lt;/p&gt;
+&lt;blockquote&gt;
+TODO&lt;/blockquote&gt;
+&lt;p&gt;この記事の内容は &lt;a class="reference external" href="https://pycon.jp/2016/ja/schedule/presentation/33/"&gt;PyConJp 2016&lt;/a&gt; にて発表予定です．&lt;/p&gt;
+&lt;div class="section" id="id1"&gt;
+&lt;h2&gt;読むのに必要なスキル&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Pythonが読める&lt;/li&gt;
+&lt;li&gt;Python以外の言語に触ったことのある&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class="section" id="why-i-focus-it"&gt;
+&lt;h3&gt;Why I focus it.&lt;/h3&gt;
+&lt;p&gt;私の研究の中でNP困難な問題を解く必要がでてきました．
+並列計算をする必要がありGILのあるPythonのみでは困難です．
+これでの研究はすべてPythonとIPython notebook上で行っているため，これまでの資産がありました．
+この資産を捨て，Python以外の言語で再実装するのはナンセンスです．
+そのため，NP困難な問題のソルバーをRustやCythonを用いて実装し，Pythonから実行可能にすることを考えます．&lt;/p&gt;
+&lt;p&gt;より抽象的に考えた際に，プログラミング言語それぞれの文法・文化・ライブラリに対し得意/不得意が存在すると考えることができます．
+さきほどは，Pythonの不得意な処理(並列処理)に関しては，並列処理の得意なRustを用いて実装するという手段を取りました．
+同様に，actor modelのような並行処理を行うプログラムを書く場合，Pythonよりerlangを用いて記述したくなりますが，実際の処理の部分はライブラリの豊富なPythonで実装したいです．
+このように，あるコンポーネントはある言語で書きたいが，ほかのコンポーネントは別の言語で書きたいという欲求がでてきます．&lt;/p&gt;
+&lt;p&gt;本記事ではこのような，別々の言語で実装されたコンポーネントを組合せ，一つのプロジェクトを実現するプログラミング技法を議論します．&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="chimera"&gt;
+&lt;h3&gt;Chimera&lt;/h3&gt;
+&lt;p&gt;本記事では， &lt;strong&gt;複数の言語が組み合わさった状態&lt;/strong&gt; を &lt;strong&gt;キメラ&lt;/strong&gt; と呼ぶこととします．&lt;a class="footnote-reference" href="#id3" id="id2"&gt;[1]&lt;/a&gt;&lt;/p&gt;
+&lt;table class="docutils footnote" frame="void" id="id3" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id2"&gt;[1]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;厳密風な定義もいくつか考えましたが，しっくりこなかったのでゆるい定義となってます．&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;キメラなプロジェクトの例としてnumpyが挙げられます．&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://github.com/numpy/numpy"&gt;https://github.com/numpy/numpy&lt;/a&gt;&lt;/p&gt;
+&lt;img alt="" src="https://cocuh.github.io/articles/2016/08/10/chimera/numpy.png" /&gt;
+&lt;p&gt;たとえばこんな感じに，CとPythonで書かれているのがわかります．
+これは速度と計算資源の有効活用のためで，コアな部分はCで書き，そのまわりは人間が書きやすいPythonで書くようにしています．&lt;/p&gt;
+&lt;p&gt;もう一つ別の例では，webアプリケーションが挙げられます．
+serverサイドがRailsであってもclientサイドはJavaScriptのようにです．
+これは，serverサイドはHTTPが喋れれば何でもいいですが，clientサイドはブラウザが(基本的に)JavaScriptのみしか動かないためです．&lt;/p&gt;
+&lt;p&gt;このように，多くのアプリケーションは複数の言語でかかれています．
+これは，言語ごとに特徴が異なるため使い分けが為されているためです．&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id4"&gt;
+&lt;h3&gt;Chimeraの種類&lt;/h3&gt;
+&lt;!-- .. math::
+    x^2 --&gt;
+&lt;!-- inline :math:`x^2` --&gt;
+&lt;/div&gt;
 &lt;/div&gt;
 </summary><category term="chimera"></category><category term="software design"></category><category term="python"></category></entry><entry><title>Hatena blogからpelicanに移行した</title><link href="https://cocuh.github.io/articles/2016/08/07/start-blog/index-ja.html" rel="alternate"></link><published>2016-08-07T16:16:00+09:00</published><author><name>cocuh</name></author><id>tag:cocuh.github.io,2016-08-07:articles/2016/08/07/start-blog/index-ja.html</id><summary type="html">&lt;!-- :summary: Short version for index and feeds
 :modified: 2016-08-07 16:16

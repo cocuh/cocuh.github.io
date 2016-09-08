@@ -31,7 +31,7 @@
 <meta property="og:url" content="https://cocuh.github.io"/>
 <meta property="og:image" content="/static/sitelogo.png">
 
-  <title>cocuh's blog &ndash; Authors</title>
+  <title>cocuh's blog &ndash; Tag: programming</title>
 </head>
 <body>
   <aside>
@@ -58,16 +58,31 @@
   </aside>
   <main>
 
-<article>
+<article class="articles">
   <header>
-    <h1>Authors</h1>
+    <h2><a href="https://cocuh.github.io/articles/2016/09/08/python_rust_parallel/index-ja.html#python_rust_parallel">Python+Rustでマルチスレッドな並列プログラミング</a></h2>
+    <p>
+      Posted on Thu 08 September 2016 in <a href="https://cocuh.github.io/category/software.html">software</a>
+      &#8226; Tagged with
+      <a href="https://cocuh.github.io/tag/rust.html">Rust</a>,      <a href="https://cocuh.github.io/tag/python.html">Python</a>,      <a href="https://cocuh.github.io/tag/programming.html">programming</a>      &#8226; <a href="https://cocuh.github.io/articles/2016/09/08/python_rust_parallel/index-ja.html#disqus_thread">Leave a comment</a>
+    </p>
   </header>
   <div>
-    <ul class="list">
-      <li><a href="https://cocuh.github.io/author/cocuh.html">cocuh</a> (3)</li>
-    </ul>
+      <div class="line-block">
+<div class="line">アルゴリズムを見て <strong>「むむっ…マルチスレッドで共有メモリごりごりしたい」</strong> と思うことが皆様あると思います．</div>
+<div class="line">しかしながらPythonにはGILがあるため，マルチスレッドをしても並列に処理されません．</div>
+<div class="line"><br /></div>
+<div class="line">C++やRustで書いてもいいですが，データ処理をする人間からすると，C++/Rustは常用したくないです．</div>
+<div class="line">Rustで処理したものをディスクに保存して，Pythonから読み出すという手もありますが，管理が煩雑でミスをはらみやすいです．</div>
+<div class="line">そのため， <strong>アルゴリズムのcoreの部分をRustで書き，Python bindingを作る</strong> ことを考えます．</div>
+</div>
+
+      <a class="btn" href="https://cocuh.github.io/articles/2016/09/08/python_rust_parallel/index-ja.html#python_rust_parallel">Continue reading</a>
   </div>
 </article>
+
+  <div class="pagination">
+  </div>
 
     <footer>
         <p>&copy; cocuh </p>
@@ -87,6 +102,15 @@
   "image": "/static/sitelogo.png",
   "description": ""
 }
+</script>
+<script type="text/javascript">
+    var disqus_shortname = 'cocuh-github-io';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
 </script>
 </body>
 </html>

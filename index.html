@@ -60,6 +60,29 @@
 
 <article class="articles">
   <header>
+    <h2><a href="https://cocuh.github.io/articles/2016/09/08/python_rust_parallel/index-ja.html#python_rust_parallel">Python+Rustでマルチスレッドな並列プログラミング</a></h2>
+    <p>
+      Posted on Thu 08 September 2016 in <a href="https://cocuh.github.io/category/software.html">software</a>
+      &#8226; Tagged with
+      <a href="https://cocuh.github.io/tag/rust.html">Rust</a>,      <a href="https://cocuh.github.io/tag/python.html">Python</a>,      <a href="https://cocuh.github.io/tag/programming.html">programming</a>      &#8226; <a href="https://cocuh.github.io/articles/2016/09/08/python_rust_parallel/index-ja.html#disqus_thread">Leave a comment</a>
+    </p>
+  </header>
+  <div>
+      <div class="line-block">
+<div class="line">アルゴリズムを見て <strong>「むむっ…マルチスレッドで共有メモリごりごりしたい」</strong> と思うことが皆様あると思います．</div>
+<div class="line">しかしながらPythonにはGILがあるため，マルチスレッドをしても並列に処理されません．</div>
+<div class="line"><br /></div>
+<div class="line">C++やRustで書いてもいいですが，データ処理をする人間からすると，C++/Rustは常用したくないです．</div>
+<div class="line">Rustで処理したものをディスクに保存して，Pythonから読み出すという手もありますが，管理が煩雑でミスをはらみやすいです．</div>
+<div class="line">そのため， <strong>アルゴリズムのcoreの部分をRustで書き，Python bindingを作る</strong> ことを考えます．</div>
+</div>
+
+      <a class="btn" href="https://cocuh.github.io/articles/2016/09/08/python_rust_parallel/index-ja.html#python_rust_parallel">Continue reading</a>
+  </div>
+  <hr />
+</article>
+<article class="articles">
+  <header>
     <h2><a href="https://cocuh.github.io/articles/2016/08/10/chimera/index-ja.html#chimera">複数の言語で一つのプログラムを書くということ(WIP)</a></h2>
     <p>
       Posted on Wed 10 August 2016 in <a href="https://cocuh.github.io/category/software.html">software</a>
@@ -71,10 +94,17 @@
       <p>1つのプロジェクトが1つの言語で完結することが少なくなっています．
 webアプリケーションで例えれば，backendはPythonで書き，frontendはJavaScriptを使っているなどです．
 このような1つのプロジェクトに複数の言語が混在させるソフトウェア設計論について，あまり多く議論されてきませんでした．</p>
-<p>本記事では，「1つのプロジェクトに複数の言語が混在する」状態をキメラ(chimera)と命名し，キメラなプロジェクトを設計する上で必要なことを実例を交えつつ紹介します．
-その上で，キメラを実現する上で求められるであろう技術について触れます．
-最後に，プログラミング言語の今後についての私見も述べようと思います．</p>
+<p>本記事の内容は以下のようになっています．
+..</p>
+<blockquote>
+TODO</blockquote>
 <p>この記事の内容は <a class="reference external" href="https://pycon.jp/2016/ja/schedule/presentation/33/">PyConJp 2016</a> にて発表予定です．</p>
+<div class="section" id="id1">
+<h2>読むのに必要なスキル</h2>
+<ul class="simple">
+<li>Pythonが読める</li>
+<li>Python以外の言語に触ったことのある</li>
+</ul>
 
       <a class="btn" href="https://cocuh.github.io/articles/2016/08/10/chimera/index-ja.html#chimera">Continue reading</a>
   </div>

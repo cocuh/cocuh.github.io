@@ -22,11 +22,11 @@
 
 
 <meta name="author" content="cocuh" />
-<meta name="description" content="1つのプロジェクトが1つの言語で完結することが少なくなっています． webアプリケーションで例えれば，backendはPythonで書き，frontendはJavaScriptを使っているなどです． このような1つのプロジェクトに複数の言語が混在させるソフトウェア設計論について，あまり多く議論されてきませんでした． 本記事では，「1つのプロジェクトに複数の言語が混在する」状態をキメラ(chimera)と命名し，キメラなプロジェクトを設計する上で必要なことを実例を交えつつ紹介します． その上で，キメラを実現する上で求められるであろう技術について触れます． 最後に，プログラミング言語の今後についての私見も述べようと思います． この記事の内容は PyConJp 2016 にて発表予定です．" />
+<meta name="description" content="1つのプロジェクトが1つの言語で完結することが少なくなっています． webアプリケーションで例えれば，backendはPythonで書き，frontendはJavaScriptを使っているなどです． このような1つのプロジェクトに複数の言語が混在させるソフトウェア設計論について，あまり多く議論されてきませんでした． 本記事の内容は以下のようになっています． .. TODO この記事の内容は PyConJp 2016 にて発表予定です． 読むのに必要なスキル Pythonが読める Python以外の言語に触ったことのある" />
 <meta name="keywords" content="chimera, software design, python">
 <meta property="og:site_name" content="cocuh's blog"/>
 <meta property="og:title" content="複数の言語で一つのプログラムを書くということ(WIP)"/>
-<meta property="og:description" content="1つのプロジェクトが1つの言語で完結することが少なくなっています． webアプリケーションで例えれば，backendはPythonで書き，frontendはJavaScriptを使っているなどです． このような1つのプロジェクトに複数の言語が混在させるソフトウェア設計論について，あまり多く議論されてきませんでした． 本記事では，「1つのプロジェクトに複数の言語が混在する」状態をキメラ(chimera)と命名し，キメラなプロジェクトを設計する上で必要なことを実例を交えつつ紹介します． その上で，キメラを実現する上で求められるであろう技術について触れます． 最後に，プログラミング言語の今後についての私見も述べようと思います． この記事の内容は PyConJp 2016 にて発表予定です．"/>
+<meta property="og:description" content="1つのプロジェクトが1つの言語で完結することが少なくなっています． webアプリケーションで例えれば，backendはPythonで書き，frontendはJavaScriptを使っているなどです． このような1つのプロジェクトに複数の言語が混在させるソフトウェア設計論について，あまり多く議論されてきませんでした． 本記事の内容は以下のようになっています． .. TODO この記事の内容は PyConJp 2016 にて発表予定です． 読むのに必要なスキル Pythonが読める Python以外の言語に触ったことのある"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="https://cocuh.github.io/articles/2016/08/10/chimera/index-ja.html"/>
 <meta property="og:type" content="article"/>
@@ -74,18 +74,57 @@
     <p>1つのプロジェクトが1つの言語で完結することが少なくなっています．
 webアプリケーションで例えれば，backendはPythonで書き，frontendはJavaScriptを使っているなどです．
 このような1つのプロジェクトに複数の言語が混在させるソフトウェア設計論について，あまり多く議論されてきませんでした．</p>
-<p>本記事では，「1つのプロジェクトに複数の言語が混在する」状態をキメラ(chimera)と命名し，キメラなプロジェクトを設計する上で必要なことを実例を交えつつ紹介します．
-その上で，キメラを実現する上で求められるであろう技術について触れます．
-最後に，プログラミング言語の今後についての私見も述べようと思います．</p>
+<p>本記事の内容は以下のようになっています．
+..</p>
+<blockquote>
+TODO</blockquote>
 <p>この記事の内容は <a class="reference external" href="https://pycon.jp/2016/ja/schedule/presentation/33/">PyConJp 2016</a> にて発表予定です．</p>
+<div class="section" id="id1">
+<h2>読むのに必要なスキル</h2>
+<ul class="simple">
+<li>Pythonが読める</li>
+<li>Python以外の言語に触ったことのある</li>
+</ul>
 
-<div class="section" id="motivation">
-<h2>Motivation</h2>
-<p>私は機械学習の研究をしており，Pythonを使用しています．
-この研究のなかで，NP困難な問題を解く必要があり，並列処理をする必要が出てきました．</p>
+<div class="section" id="why-i-focus-it">
+<h3>Why I focus it.</h3>
+<p>私の研究の中でNP困難な問題を解く必要がでてきました．
+並列計算をする必要がありGILのあるPythonのみでは困難です．
+これでの研究はすべてPythonとIPython notebook上で行っているため，これまでの資産がありました．
+この資産を捨て，Python以外の言語で再実装するのはナンセンスです．
+そのため，NP困難な問題のソルバーをRustやCythonを用いて実装し，Pythonから実行可能にすることを考えます．</p>
+<p>より抽象的に考えた際に，プログラミング言語それぞれの文法・文化・ライブラリに対し得意/不得意が存在すると考えることができます．
+さきほどは，Pythonの不得意な処理(並列処理)に関しては，並列処理の得意なRustを用いて実装するという手段を取りました．
+同様に，actor modelのような並行処理を行うプログラムを書く場合，Pythonよりerlangを用いて記述したくなりますが，実際の処理の部分はライブラリの豊富なPythonで実装したいです．
+このように，あるコンポーネントはある言語で書きたいが，ほかのコンポーネントは別の言語で書きたいという欲求がでてきます．</p>
+<p>本記事ではこのような，別々の言語で実装されたコンポーネントを組合せ，一つのプロジェクトを実現するプログラミング技法を議論します．</p>
+</div>
+<div class="section" id="chimera">
+<h3>Chimera</h3>
+<p>本記事では， <strong>複数の言語が組み合わさった状態</strong> を <strong>キメラ</strong> と呼ぶこととします．<a class="footnote-reference" href="#id3" id="id2">[1]</a></p>
+<table class="docutils footnote" frame="void" id="id3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>厳密風な定義もいくつか考えましたが，しっくりこなかったのでゆるい定義となってます．</td></tr>
+</tbody>
+</table>
+<p>キメラなプロジェクトの例としてnumpyが挙げられます．</p>
+<p><a class="reference external" href="https://github.com/numpy/numpy">https://github.com/numpy/numpy</a></p>
+<img alt="" src="https://cocuh.github.io/articles/2016/08/10/chimera/numpy.png" />
+<p>たとえばこんな感じに，CとPythonで書かれているのがわかります．
+これは速度と計算資源の有効活用のためで，コアな部分はCで書き，そのまわりは人間が書きやすいPythonで書くようにしています．</p>
+<p>もう一つ別の例では，webアプリケーションが挙げられます．
+serverサイドがRailsであってもclientサイドはJavaScriptのようにです．
+これは，serverサイドはHTTPが喋れれば何でもいいですが，clientサイドはブラウザが(基本的に)JavaScriptのみしか動かないためです．</p>
+<p>このように，多くのアプリケーションは複数の言語でかかれています．
+これは，言語ごとに特徴が異なるため使い分けが為されているためです．</p>
+</div>
+<div class="section" id="id4">
+<h3>Chimeraの種類</h3>
 <!-- .. math::
     x^2 -->
 <!-- inline :math:`x^2` -->
+</div>
 </div>
 
   </div>
@@ -142,7 +181,7 @@ webアプリケーションで例えれば，backendはPythonで書き，fronten
   },
   "image": "/static/sitelogo.png",
   "url": "https://cocuh.github.io/articles/2016/08/10/chimera/index-ja.html",
-  "description": "1つのプロジェクトが1つの言語で完結することが少なくなっています． webアプリケーションで例えれば，backendはPythonで書き，frontendはJavaScriptを使っているなどです． このような1つのプロジェクトに複数の言語が混在させるソフトウェア設計論について，あまり多く議論されてきませんでした． 本記事では，「1つのプロジェクトに複数の言語が混在する」状態をキメラ(chimera)と命名し，キメラなプロジェクトを設計する上で必要なことを実例を交えつつ紹介します． その上で，キメラを実現する上で求められるであろう技術について触れます． 最後に，プログラミング言語の今後についての私見も述べようと思います． この記事の内容は PyConJp 2016 にて発表予定です．"
+  "description": "1つのプロジェクトが1つの言語で完結することが少なくなっています． webアプリケーションで例えれば，backendはPythonで書き，frontendはJavaScriptを使っているなどです． このような1つのプロジェクトに複数の言語が混在させるソフトウェア設計論について，あまり多く議論されてきませんでした． 本記事の内容は以下のようになっています． .. TODO この記事の内容は PyConJp 2016 にて発表予定です． 読むのに必要なスキル Pythonが読める Python以外の言語に触ったことのある"
 }
 </script></body>
 </html>
