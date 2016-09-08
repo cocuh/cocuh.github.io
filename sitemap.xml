@@ -5,28 +5,28 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://cocuh.github.io/</loc>
-<lastmod>2016-09-08T19:13:37-00:00</lastmod>
+<lastmod>2016-09-08T19:20:52-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
 <loc>https://cocuh.github.io/archives.html</loc>
-<lastmod>2016-09-08T19:13:37-00:00</lastmod>
+<lastmod>2016-09-08T19:20:52-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
 <loc>https://cocuh.github.io/tags.html</loc>
-<lastmod>2016-09-08T19:13:37-00:00</lastmod>
+<lastmod>2016-09-08T19:20:52-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
 <loc>https://cocuh.github.io/categories.html</loc>
-<lastmod>2016-09-08T19:13:37-00:00</lastmod>
+<lastmod>2016-09-08T19:20:52-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
@@ -74,15 +74,8 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>https://cocuh.github.io/tag/python.html</loc>
-<lastmod>2016-09-08T19:21:00+09:00</lastmod>
-<changefreq>daily</changefreq>
-<priority>0.6</priority>
-</url>
-
-<url>
-<loc>https://cocuh.github.io/tag/rust.html</loc>
-<lastmod>2016-09-08T19:21:00+09:00</lastmod>
+<loc>https://cocuh.github.io/tag/chimera.html</loc>
+<lastmod>2016-08-10T21:55:00+09:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
@@ -95,8 +88,15 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>https://cocuh.github.io/tag/chimera.html</loc>
-<lastmod>2016-08-10T21:55:00+09:00</lastmod>
+<loc>https://cocuh.github.io/tag/rust.html</loc>
+<lastmod>2016-09-08T19:21:00+09:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.6</priority>
+</url>
+
+<url>
+<loc>https://cocuh.github.io/tag/python.html</loc>
+<lastmod>2016-09-08T19:21:00+09:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
