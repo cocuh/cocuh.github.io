@@ -80,7 +80,7 @@ https://github.com/dgrunwald/rust-cpython
 
 :code:`Cargo.toml` はこんな感じ
 
-.. code:: toml
+.. code::
 
   [package]
   name = "sort"
@@ -116,7 +116,7 @@ https://github.com/dgrunwald/rust-cpython
 
 https://github.com/cocuh/python-rust-ext
 
-:code:`setup.py` をこんな感じに書けば :code:`python setup.py install`で勝手にビルドして入れてくれます．べんり！
+:code:`setup.py` をこんな感じに書けば :code:`python setup.py install` で勝手にビルドして入れてくれます．べんり！
 
 .. code:: python
 
